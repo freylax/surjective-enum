@@ -15,3 +15,6 @@ proc-macro = true
 proc-macro2 = "0.4"
 quote = "0.6"
 syn = { version = "0.15", features = ["full"] }
+
+[badges]
+travis-ci = { repository = "freylax/surjective-enum", branch = "master" }
