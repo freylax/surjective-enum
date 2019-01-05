@@ -1,3 +1,6 @@
+//! Surjective mapping for conversion of enum representation to enmu.
+//! See the macro documentation and tests for example usage.
+
 extern crate proc_macro;
 use proc_macro::TokenStream;
 use quote::*;
@@ -9,10 +12,23 @@ use syn::punctuated::Pair::End;
 use syn::NestedMeta::Meta;
 use std::iter;
 
-
 /// Derive a surjective ::core::convert::From<Unitary Enum Representation> conversion function
 /// which maps all values which are not part of the enumeration to the last
 /// enum discriminant.
+///
+/// The example
+/// ``` rust
+/// use surjective_enum::From;
+/// #[repr(u8)]
+/// #[derive(From)]
+/// pub enum Enum {
+///     Bar  = 0b00,
+///     Foo  = 0b01,
+///     Rest = 0b11
+/// }
+/// ```
+/// will create a from(u8) -> Enum conversion function which maps
+/// 0 -> Bar, 1 -> Foo and all other values to Rest.
 #[proc_macro_derive(From)]
 pub fn from(input: TokenStream) -> TokenStream {
     let ast: DeriveInput = parse( input).unwrap();
