@@ -10,7 +10,7 @@ use syn::NestedMeta::Meta;
 use std::iter;
 
 
-/// Derive a surjective From<Unitary Enum Representation> conversion function
+/// Derive a surjective ::core::convert::From<Unitary Enum Representation> conversion function
 /// which maps all values which are not part of the enumeration to the last
 /// enum discriminant.
 #[proc_macro_derive(From)]
@@ -65,6 +65,9 @@ pub fn from(input: TokenStream) -> TokenStream {
                                 _ => #ty::#last_name 
                             }
                         }
+                    }
+                    impl From<#ty> for #rep {
+                        fn from(x: #ty) -> Self { x as #rep }
                     }
                 }.into();
             }
